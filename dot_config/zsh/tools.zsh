@@ -1,3 +1,6 @@
+# uv
+export PATH="$PATH:$HOME/.local/bin"
+
 # fzf
 source <(fzf --zsh)
 
