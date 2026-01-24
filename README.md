@@ -32,7 +32,7 @@ chezmoi apply
 
 | 設定 | work | private |
 |------|------|---------|
-| `~/.mntsq_private` の読み込み | あり | なし |
+| `~/.work_credential` の読み込み | あり | なし |
 
 ## 手動管理ファイル
 
@@ -40,4 +40,4 @@ chezmoi apply
 
 | ファイル | 説明 | 必要なプロファイル |
 |----------|------|-------------------|
-| `~/.config/zsh/mntsq.zsh` | 会社固有の秘密情報 | work |
+| `~/.config/zsh/work.zsh` | 会社固有の秘密情報 | work |
