@@ -38,3 +38,4 @@ cask "docker-desktop"      # Docker
 cask "karabiner-elements"  # キーリマッパー
 cask "rectangle"           # ウィンドウ管理
 cask "wezterm@nightly"     # ターミナルエミュレータ
+cask "google-japanese-ime" # google日本語入力
