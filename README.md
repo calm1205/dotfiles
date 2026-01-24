@@ -5,6 +5,7 @@ chezmoiで管理するdotfilesリポジトリ。
 ## セットアップ
 
 ```bash
+brew install chezmoi
 chezmoi init <repository>
 chezmoi apply
 ```
