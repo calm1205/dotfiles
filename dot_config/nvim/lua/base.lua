@@ -17,6 +17,8 @@ vim.o.smartcase = true         -- 検索時、大文字を含む場合のみ大�
 vim.o.showmatch = true         -- 対応する括弧をハイライト表示
 
 -- ハイライト設定
-vim.cmd('highlight LineNr ctermfg=239')      -- 行番号の色をグレー（239）に設定
-vim.cmd('highlight NonText ctermfg=239')     -- 改行記号など非テキスト文字の色を設定
-vim.cmd('highlight SpecialKey ctermfg=239')  -- タブや不可視文字の色を設定
+vim.o.cursorline = true                           -- カーソル行をハイライト（CursorLineNrに必要）
+vim.cmd('highlight LineNr ctermfg=239')           -- 行番号の色をグレー（239）に設定
+vim.cmd('highlight CursorLineNr ctermfg=yellow')  -- 現在行の行番号を黄色に設定
+vim.cmd('highlight NonText ctermfg=239')          -- 改行記号など非テキスト文字の色を設定
+vim.cmd('highlight SpecialKey ctermfg=239')       -- タブや不可視文字の色を設定
