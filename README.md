@@ -16,6 +16,8 @@ chezmoi apply
 
 ### 会社用 (work)
 
+`~/.config/zsh/work_credential.zsh`に
+
 ```toml
 [data]
   profile = "work"
@@ -28,16 +30,3 @@ chezmoi apply
   profile = "private"
 ```
 
-## プロファイルによる違い
-
-| 設定 | work | private |
-|------|------|---------|
-| `~/.work_credential` の読み込み | あり | なし |
-
-## 手動管理ファイル
-
-以下のファイルはchezmoiで管理せず、手動で配置する。
-
-| ファイル | 説明 | 必要なプロファイル |
-|----------|------|-------------------|
-| `~/.config/zsh/work.zsh` | 会社固有の秘密情報 | work |
