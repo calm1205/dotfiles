@@ -16,7 +16,7 @@ chezmoi apply
 
 ### 会社用 (work)
 
-`~/.config/zsh/work_credential.zsh`に
+dotfilesで管理できない機密情報は`~/.config/zsh/work_credential.zsh`に別途記載
 
 ```toml
 [data]
