@@ -1,0 +1,31 @@
+# シェルのプロンプトの間に空行を挿入する
+add_newline = false
+
+# プロンプトの表示フォーマット（改行なし）
+# $directory: カレントディレクトリ
+# $git_branch: gitブランチ名
+# $git_status: gitの状態（変更有無など）
+# $character: プロンプト記号（❯）
+format = "$directory$git_branch$git_status$character"
+
+# ディレクトリ表示の設定
+[directory]
+style = "cyan"  # シアン色で表示
+
+# gitブランチの設定
+[git_branch]
+format = "[$branch]($style)"  # ブランチ名のみ表示
+style = "green"               # 緑色で表示
+
+# git状態の設定
+[git_status]
+format = "[$modified$staged$untracked]($style) "
+style = "yellow"   # 黄色で表示
+modified = "*"     # 変更あり（未ステージ）
+staged = "+"       # ステージ済み
+untracked = "?"    # 未追跡ファイル
+
+# プロンプト記号の設定
+[character]
+success_symbol = "[❯](white)"  # 成功時は白
+error_symbol = "[❯](red)"      # エラー時は赤
