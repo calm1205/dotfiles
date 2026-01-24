@@ -1,0 +1,5 @@
+alias ls='ls --color=auto'
+alias cd='z'
+alias cdi='zi'
+alias cat='gat'
+alias vim='nvim'
