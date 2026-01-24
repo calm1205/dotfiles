@@ -1,0 +1,40 @@
+# ===================
+# Shell & Terminal
+# ===================
+brew "starship"            # クロスシェルプロンプト
+brew "zsh-autosuggestions" # zsh入力補完
+brew "fzf"                 # ファジーファインダー
+brew "zoxide"              # スマートcd
+brew "direnv"              # ディレクトリ別環境変数
+
+# ===================
+# CLI tools
+# ===================
+brew "neovim"              # テキストエディタ
+brew "ripgrep"             # 高速grep
+brew "jq"                  # JSONプロセッサ
+brew "tree"                # ディレクトリツリー表示
+brew "gat"                 # catの代替（シンタックスハイライト）
+brew "broot"               # ファイルマネージャ
+brew "gh"                  # GitHub CLI
+
+# ===================
+# Development
+# ===================
+brew "cmake"               # クロスプラットフォームビルドシステム
+brew "mise"                # 複数言語バージョン管理
+brew "pyright"             # Python静的型チェッカー
+
+# ===================
+# Dotfiles
+# ===================
+brew "chezmoi"             # dotfiles管理
+
+# ===================
+# Cask (GUI apps)
+# ===================
+cask "claude-code"         # Claude Code
+cask "docker-desktop"      # Docker
+cask "karabiner-elements"  # キーリマッパー
+cask "rectangle"           # ウィンドウ管理
+cask "wezterm@nightly"     # ターミナルエミュレータ
