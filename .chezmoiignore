@@ -1,9 +1,11 @@
-# workプロファイルでは .private.* を無視
+# workプロファイルでは private を無視
 {{ if eq .profile "work" }}
 **/*.private.*
+**/private.*
 {{ end }}
 
-# privateプロファイルでは .work.* を無視
+# privateプロファイルでは work を無視
 {{ if eq .profile "private" }}
 **/*.work.*
+**/work.*
 {{ end }}
