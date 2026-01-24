@@ -1,0 +1,66 @@
+# alias
+alias ls='ls --color=auto'
+alias cd='z'
+alias cdi='zi'
+alias cat='gat'
+alias vim='nvim'
+
+export EDITOR=nvim
+
+# new line
+
+# history: 入力中に矢印上下で前方一致のhistry検索
+bindkey '^[[A' history-beginning-search-backward
+bindkey '^[[B' history-beginning-search-forward
+
+# edit command line: Esc → e で現在入力中のコマンドラインをvimで編集
+autoload -Uz edit-command-line
+zle -N edit-command-line
+bindkey '^[e' edit-command-line
+
+# fzf
+source <(fzf --zsh)
+
+# zoxide
+eval "$(zoxide init zsh)"
+
+# uv
+export PYTHONDONTWRITEBYTECODE=1
+export PATH="$PATH:$HOME/.local/bin"
+
+# load secret
+source ~/.mntsq_private
+
+# zsh-autosuggestions
+source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+# direnv
+eval "$(direnv hook zsh)"
+
+# pyenv
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init - zsh)"
+
+# br
+source /Users/nagi.moriyama/.config/broot/launcher/bash/br
+
+# mise
+eval "$(mise activate zsh)"
+
+# starship
+eval "$(starship init zsh)"
+
+# git checkout with fzf
+gco() {
+  local branch
+  branch=$(git branch -a | fzf | sed 's/remotes\/origin\///' | sed 's/^\* //' | xargs)
+  [ -n "$branch" ] && git checkout "$branch"
+}
+
+# gh pr view with fzf
+gpr() {
+  local pr
+  pr=$(gh pr list | fzf --preview 'gh pr view {1}' | awk '{print $1}')
+  [ -n "$pr" ] && gh pr view "$pr"
+}
