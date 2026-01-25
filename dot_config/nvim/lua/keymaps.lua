@@ -12,11 +12,17 @@ map('n', '<Leader>v', ':<C-u>vs\n', { noremap = true })
 
 -- window閉じる
 map('n', '<Leader>w', ':<C-u>w\n',  { noremap = true })
-map('n', '<Leader>q', ':<C-u>qa\n',  { noremap = true })
+map('n', '<Leader>q', ':<C-u>q\n',  { noremap = true })
 map('n', '<Leader>wq',':<C-u>wq\n',{ noremap = true })
+map('n', '<Leader>qa', ':<C-u>qa\n',  { noremap = true })
 
 -- ターミナルを開く
 map('n', '<Leader>tt', ':terminal\n', { noremap = true })
+
+-- Claude Code / Terminal操作
+-- Ctrl+]: normalモードならClaude Codeにフォーカス、terminalモードならnormalモードへ
+map('n', '<C-]>', '<cmd>ClaudeCodeFocus<cr>', { desc = 'Focus Claude Code' })
+map('t', '<C-]>', '<C-\\><C-n><C-w>h', { desc = 'Exit terminal and move to editor' })
 
 -- LSP警告表示
 map(
