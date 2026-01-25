@@ -24,6 +24,7 @@ brew "gh"                  # GitHub CLI
 brew "cmake"               # クロスプラットフォームビルドシステム
 brew "mise"                # 複数言語バージョン管理
 brew "pyright"             # Python静的型チェッカー
+brew "lua-language-server" # lua静的型チェッカー
 
 # ===================
 # Dotfiles
