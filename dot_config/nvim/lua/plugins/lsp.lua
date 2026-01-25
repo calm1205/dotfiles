@@ -1,7 +1,15 @@
 return {
   "neovim/nvim-lspconfig",
+  dependencies = {
+    'hrsh7th/cmp-nvim-lsp',
+  },
   config = function()
     local map = vim.keymap.set
+
+    -- cmp-nvim-lspのcapabilitiesを全LSPサーバーに適用
+    vim.lsp.config('*', {
+      capabilities = require('cmp_nvim_lsp').default_capabilities(),
+    })
 
     -- LSPがアタッチされた時のキーマップ設定
     vim.api.nvim_create_autocmd("LspAttach", {
@@ -53,7 +61,10 @@ return {
     -- pyright
     vim.lsp.config.pyright = {}
 
+    -- vue_ls
+    vim.lsp.config.vue_ls = {}
+
     -- LSPサーバーを有効化
-    vim.lsp.enable({ "lua_ls", "ts_ls", "ruby_lsp", "pyright" })
+    vim.lsp.enable({ "lua_ls", "ts_ls", "ruby_lsp", "pyright", "vue_ls" })
   end,
 }
