@@ -16,8 +16,8 @@ map('n', '<Leader>q', ':<C-u>q\n',  { noremap = true })
 map('n', '<Leader>wq',':<C-u>wq\n',{ noremap = true })
 map('n', '<Leader>qa', ':<C-u>qa\n',  { noremap = true })
 
--- ターミナルを開く
-map('n', '<Leader>tt', ':terminal\n', { noremap = true })
+-- ターミナルを開く（水平分割、下に表示）
+map('n', '<Leader>tt', ':botright split | terminal<CR>', { noremap = true })
 
 -- Claude Code / Terminal操作
 -- Ctrl+]: normalモードならClaude Codeにフォーカス、terminalモードならnormalモードへ
