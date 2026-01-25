@@ -15,6 +15,7 @@ vim.o.wildmenu = true          -- コマンドライン補完を拡張モード�
 vim.o.ruler = true             -- カーソル位置（行・列）を右下に表示
 vim.o.smartcase = true         -- 検索時、大文字を含む場合のみ大文字小文字を区別
 vim.o.showmatch = true         -- 対応する括弧をハイライト表示
+vim.o.autoread = true          -- 外部でファイルが変更された場合に自動で再読み込み
 
 -- ハイライト設定
 vim.o.cursorline = true                           -- カーソル行をハイライト（CursorLineNrに必要）
