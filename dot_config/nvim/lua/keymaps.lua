@@ -12,7 +12,7 @@ map('n', '<Leader>v', ':<C-u>vs\n', { noremap = true })
 
 -- window閉じる
 map('n', '<Leader>w', ':<C-u>w\n',  { noremap = true })
-map('n', '<Leader>q', ':<C-u>q\n',  { noremap = true })
+map('n', '<Leader>q', ':<C-u>qa\n',  { noremap = true })
 map('n', '<Leader>wq',':<C-u>wq\n',{ noremap = true })
 
 -- ターミナルを開く
