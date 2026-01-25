@@ -16,6 +16,7 @@ vim.o.ruler = true             -- カーソル位置（行・列）を右下に�
 vim.o.smartcase = true         -- 検索時、大文字を含む場合のみ大文字小文字を区別
 vim.o.showmatch = true         -- 対応する括弧をハイライト表示
 vim.o.autoread = true          -- 外部でファイルが変更された場合に自動で再読み込み
+vim.o.winbar = '%F'            -- ウィンドウ上部にフルパスを表示
 
 -- ハイライト設定
 vim.o.cursorline = true                           -- カーソル行をハイライト（CursorLineNrに必要）
