@@ -8,6 +8,7 @@ chezmoiで管理するdotfilesリポジトリ。
 brew install chezmoi
 chezmoi init <repository>
 chezmoi apply
+gh extension install dlvhdr/gh-dash
 ```
 
 ## プロファイル設定
