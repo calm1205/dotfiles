@@ -53,18 +53,32 @@ return {
     }
 
     -- ts_ls
-    vim.lsp.config.ts_ls = {}
-
-    -- ruby_lsp
-    vim.lsp.config.ruby_lsp = {}
+    vim.lsp.config('ts_ls', {
+      filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
+      init_options = {
+        plugins = {
+          {
+            name = '@vue/typescript-plugin',
+            location = '/opt/homebrew/lib/node_modules/@vue/typescript-plugin',
+            languages = { 'vue' },
+          },
+        },
+      },
+    })
 
     -- pyright
     vim.lsp.config.pyright = {}
 
-    -- vue_ls
-    vim.lsp.config.vue_ls = {}
+    -- vue_ls (Hybrid Mode: HTML/CSSのみ担当、TypeScriptはts_lsが担当)
+    vim.lsp.config('vue_ls', {
+      init_options = {
+        typescript = {
+          tsdk = vim.fn.getcwd() .. '/node_modules/typescript/lib',
+        },
+      },
+    })
 
     -- LSPサーバーを有効化
-    vim.lsp.enable({ "lua_ls", "ts_ls", "ruby_lsp", "pyright", "vue_ls" })
+    vim.lsp.enable({ "lua_ls", "ts_ls", "pyright", "vue_ls" })
   end,
 }
