@@ -59,7 +59,7 @@ return {
         plugins = {
           {
             name = '@vue/typescript-plugin',
-            location = vim.fn.getcwd() .. '/node_modules/@vue/typescript-plugin',
+            location = vim.fn.trim(vim.fn.system('npm root -g')) .. '/@vue/typescript-plugin',
             languages = { 'vue' },
           },
         },
@@ -73,7 +73,7 @@ return {
     vim.lsp.config('vue_ls', {
       init_options = {
         typescript = {
-          tsdk = vim.fn.getcwd() .. '/node_modules/typescript/lib',
+          tsdk = vim.fn.trim(vim.fn.system('npm root -g')) .. '/typescript/lib',
         },
       },
     })
