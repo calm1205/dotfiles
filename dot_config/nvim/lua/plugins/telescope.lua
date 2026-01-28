@@ -12,6 +12,7 @@ return {
             "^%.git/",
             "node_modules/",
             "%.venv/",
+            "%..*cache.*/",
           },
           vimgrep_arguments = {
             'rg',
