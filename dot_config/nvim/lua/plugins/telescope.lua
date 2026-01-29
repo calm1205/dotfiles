@@ -13,6 +13,7 @@ return {
             "node_modules/",
             "%.venv/",
             "%..*cache.*/",
+            "coverage/",
           },
           vimgrep_arguments = {
             'rg',
