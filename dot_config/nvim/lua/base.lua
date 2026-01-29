@@ -13,6 +13,7 @@ vim.o.shiftwidth = 2           -- 自動インデント幅を2スペースに設
 vim.o.wrap = false             -- 行の折り返しを無効化（横スクロール表示）
 vim.o.wildmenu = true          -- コマンドライン補完を拡張モードで表示
 vim.o.ruler = true             -- カーソル位置（行・列）を右下に表示
+vim.o.ignorecase = true        -- 検索時、大文字小文字を区別しない
 vim.o.smartcase = true         -- 検索時、大文字を含む場合のみ大文字小文字を区別
 vim.o.showmatch = true         -- 対応する括弧をハイライト表示
 vim.o.autoread = true          -- 外部でファイルが変更された場合に自動で再読み込み
