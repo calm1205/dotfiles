@@ -10,6 +10,16 @@ return {
       filters = {
         git_ignored = false,
       },
+      renderer = {
+        icons = {
+          show = {
+            file = false,
+            folder = false,
+            folder_arrow = true,
+            git = true,
+          },
+        },
+      },
     }
   end,
 }
