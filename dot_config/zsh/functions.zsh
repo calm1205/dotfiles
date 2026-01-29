@@ -11,3 +11,11 @@ gpr() {
   pr=$(gh pr list | fzf --preview 'gh pr view {1}' | awk '{print $1}')
   [ -n "$pr" ] && gh pr view "$pr"
 }
+
+# ディレクトリ移動時に.venvがあれば自動activate
+function auto_activate_venv() {
+  if [[ -d ".venv" && -f ".venv/bin/activate" ]]; then
+    source .venv/bin/activate
+  fi
+}
+chpwd_functions+=auto_activate_venv
