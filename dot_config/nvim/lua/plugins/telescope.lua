@@ -14,6 +14,7 @@ return {
             "%.venv/",
             "%..*cache.*/",
             "coverage/",
+            "__pycache__",
           },
           vimgrep_arguments = {
             'rg',
