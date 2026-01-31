@@ -12,7 +12,7 @@ function M.apply(config)
   config.default_cursor_style = "BlinkingBlock"
   config.use_ime = true
   config.macos_forward_to_ime_modifier_mask = "SHIFT"
-  config.window_background_opacity = 0.7
+  config.window_background_opacity = 1.0
   config.macos_window_background_blur = 20
 
   -- タイトルバーを非表示
