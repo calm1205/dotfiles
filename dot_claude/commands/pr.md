@@ -1,3 +1,7 @@
+---
+description: GitHub PRをDraftで新規作成
+---
+
 # 役割
 githubのpull requestの新規作成
 
