@@ -18,4 +18,3 @@ function auto_activate_venv() {
     source .venv/bin/activate
   fi
 }
-chpwd_functions+=auto_activate_venv

@@ -18,3 +18,6 @@ eval "$(mise activate zsh)"
 
 # starship
 eval "$(starship init zsh)"
+
+# venv auto activate
+chpwd_functions+=auto_activate_venv
