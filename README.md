@@ -31,11 +31,3 @@ dotfilesで管理できない機密情報は`~/.config/zsh/work_credential.zsh`�
   profile = "private"
 ```
 
-## グローバルnpmパッケージ
-
-LSP用に以下のパッケージをグローバルインストールする。
-
-```bash
-npm install -g @vue/language-server @vue/typescript-plugin typescript-language-server
-```
-
