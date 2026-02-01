@@ -19,10 +19,6 @@ vim.o.showmatch = true         -- 対応する括弧をハイライト表示
 vim.o.autoread = true          -- 外部でファイルが変更された場合に自動で再読み込み
 vim.o.winbar = '%F'            -- ウィンドウ上部にフルパスを表示
 
--- fold設定（関数・クラス単位で折りたたみ可能）
-vim.o.foldmethod = 'indent'    -- インデントベース（Python等に最適）
-vim.o.foldlevel = 99           -- 起動時は全て展開
-
 -- ハイライト設定
 vim.o.cursorline = true                           -- カーソル行をハイライト（CursorLineNrに必要）
 vim.cmd('highlight LineNr ctermfg=239')           -- 行番号の色をグレー（239）に設定
