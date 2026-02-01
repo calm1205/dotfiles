@@ -9,3 +9,5 @@
 **/*.work.*
 **/work.*
 {{ end }}
+
+README.md
