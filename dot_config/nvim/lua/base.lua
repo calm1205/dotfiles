@@ -8,6 +8,7 @@ vim.opt.listchars = {
   space = '·',   -- スペースを「·」で表示
   tab = '▸ ',    -- タブを「▸」で表示
   trail = '•',   -- 末尾空白を「•」で表示
+  eol = '↲',     -- 改行を「↲」で表示
 }
 vim.o.laststatus = 2           -- ステータスラインを常に表示
 vim.o.smartindent = true       -- スマートインデントを有効化（自動で適切なインデント）
