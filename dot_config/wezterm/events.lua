@@ -20,7 +20,23 @@ function M.setup()
       background = "#444444"
       foreground = "#ffffff"
     end
+
     local title = tab.active_pane.title
+    -- カレントディレクトリがあればディレクトリ名を表示
+    local cwd_uri = tab.active_pane.current_working_dir
+    if cwd_uri then
+      local cwd = cwd_uri.file_path or tostring(cwd_uri)
+      -- パスの末尾スラッシュを除去して最後のディレクトリ名を取得
+      cwd = cwd:gsub("/$", "")
+      local dir_name = cwd:match("([^/]+)$") or cwd
+      -- ホームディレクトリの場合は ~ を表示
+      local home = os.getenv("HOME") or ""
+      if cwd == home then
+        dir_name = "~"
+      end
+      title = dir_name
+    end
+
     return {
       { Background = { Color = background } },
       { Foreground = { Color = foreground } },
