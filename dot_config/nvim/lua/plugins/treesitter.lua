@@ -14,6 +14,7 @@ return {
         "json",
         "sql",
         "markdown",
+        "markdown_inline",
       },
       auto_install = true,
     })
