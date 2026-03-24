@@ -7,6 +7,7 @@ alias cd='z'
 alias cdi='zi'
 alias cat='gat'
 alias vim='nvim'
+alias vi='vim'
 
 # history: 入力中に矢印上下で前方一致のhistry検索
 bindkey '^[[A' history-beginning-search-backward
