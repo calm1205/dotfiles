@@ -1,0 +1,30 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git mv:*)",
+      "Bash(chmod:*)",
+      "Bash(git reset:*)",
+      "Bash(git rm:*)",
+      "Bash(git push:*)",
+      "Skill(update-config)",
+      "Bash(afplay /System/Library/Sounds/Frog.aiff)",
+      "Bash(jq:*)",
+      "Bash(git:*)"
+    ]
+  },
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "afplay /System/Library/Sounds/Frog.aiff &",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}
