@@ -1,5 +1,7 @@
 ---
+name: commit
 description: ステージされていない変更をコミット
+disable-model-invocation: true
 ---
 
 # 役割
@@ -13,4 +15,3 @@ stageされていないソースコード
 - 1つのコミットで1つの責務になるようになるべく小さく分割
 - conventional commit
 - Co-Authored-Byは含めない
-

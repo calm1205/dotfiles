@@ -1,5 +1,7 @@
 ---
+name: pr
 description: GitHub PRをDraftで新規作成
+disable-model-invocation: true
 ---
 
 # 役割
