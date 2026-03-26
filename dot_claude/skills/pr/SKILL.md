@@ -11,6 +11,6 @@ githubのpull requestの新規作成
 実行したディレクトリのリポジトリ
 
 # ルール
-- PRタイトルは日本語で簡潔に。
+- PRタイトルはconventional commitのprefixを付与（例: `feat:`, `fix:`, `refactor:` 等）。本文は日本語で簡潔に。
 - PRのTEMPLATE.mdがリポジトリ内に存在していればそれを用いてPRのbodyを埋める。
 - PRはDraftで作成すること。
