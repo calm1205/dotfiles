@@ -1,6 +1,6 @@
 ---
 name: commit
-description: ステージされていない変更をコミット
+description: stageされていない変更をコミット
 disable-model-invocation: true
 ---
 
