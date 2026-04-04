@@ -37,9 +37,7 @@ brew "chezmoi"             # dotfiles管理
 cask "claude-code"         # Claude Code
 cask "docker-desktop"      # Docker
 cask "karabiner-elements"  # キーリマッパー
-cask "rectangle"           # ウィンドウ管理
 cask "wezterm@nightly"     # ターミナルエミュレータ
 cask "google-japanese-ime" # google日本語入力
 cask "raycast"             # spotlight検索
 cask "aqua-voice"          # 音声入力
-cask "jordanbaird-ice"     # メニューバーカスタマイズ
