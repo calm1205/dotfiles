@@ -21,7 +21,7 @@ return {
       },
     })
 
-    vim.keymap.set("n", "<Leader>lf", function()
+    vim.keymap.set("n", "<Leader>of", function()
       conform.format({ async = true })
     end, { desc = "Format current file" })
   end,

@@ -12,7 +12,7 @@ return {
       vue = { "oxlint" },
     }
 
-    vim.keymap.set("n", "<Leader>ll", function()
+    vim.keymap.set("n", "<Leader>ol", function()
       lint.try_lint()
     end, { desc = "Lint current file" })
   end,
