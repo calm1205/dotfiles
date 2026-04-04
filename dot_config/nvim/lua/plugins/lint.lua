@@ -1,19 +1,21 @@
 return {
   "mfussenegger/nvim-lint",
-  ft = { "javascript", "javascriptreact", "typescript", "typescriptreact", "vue" },
+  keys = {
+    {
+      "<Leader>ol",
+      function()
+        require("lint").try_lint()
+      end,
+      desc = "Lint current file",
+    },
+  },
   config = function()
-    local lint = require("lint")
-
-    lint.linters_by_ft = {
+    require("lint").linters_by_ft = {
       javascript = { "oxlint" },
       javascriptreact = { "oxlint" },
       typescript = { "oxlint" },
       typescriptreact = { "oxlint" },
       vue = { "oxlint" },
     }
-
-    vim.keymap.set("n", "<Leader>ol", function()
-      lint.try_lint()
-    end, { desc = "Lint current file" })
   end,
 }
