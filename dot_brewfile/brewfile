@@ -34,7 +34,6 @@ brew "chezmoi"             # dotfiles管理
 # ===================
 # Cask (GUI apps)
 # ===================
-cask "claude-code"         # Claude Code
 cask "docker-desktop"      # Docker
 cask "karabiner-elements"  # キーリマッパー
 cask "wezterm@nightly"     # ターミナルエミュレータ
