@@ -6,11 +6,6 @@ local M = {}
 function M.apply(config)
   config.keys = {
     {
-      key = "[",
-      mods = "CTRL",
-      action = act.SendKey({ key = "Escape" }),
-    },
-    {
       key = "c",
       mods = "SUPER|ALT",
       action = act.ActivateCopyMode,
