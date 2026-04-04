@@ -11,12 +11,6 @@
 - `run_once_*.sh` — chezmoi初回適用時に実行されるセットアップスクリプト
 - `.tmpl`拡張子 — chezmoiテンプレート（profileによる条件分岐等）
 
-## コミット規約
-- Conventional Commits形式: `type(scope): 日本語の説明`
-- scope: 変更対象のツール名（nvim, wezterm, brew, claude, zsh等）
-- type: feat, fix, refactor, perf, docs等
-- 説明は日本語、体言止め
-
 ## 注意事項
 - `run_once_*`スクリプトはchezmoiが一度だけ実行する。内容変更時はファイル名変更が必要な場合あり
 - `.tmpl`ファイルはchezmoi templateとして処理される。Go template構文を使用
