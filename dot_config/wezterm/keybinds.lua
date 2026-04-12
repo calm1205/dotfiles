@@ -6,6 +6,15 @@ local M = {}
 function M.apply(config)
   config.keys = {
     {
+      key = "¥",
+      action = act.SendString("\\"),
+    },
+    {
+      key = "¥",
+      mods = "ALT",
+      action = act.SendString("\\"),
+    },
+    {
       key = "c",
       mods = "SUPER|ALT",
       action = act.ActivateCopyMode,
