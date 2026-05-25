@@ -7,7 +7,7 @@
 ## MUSTルールのGood/Bad例
 
 1. 日本語で出力
-   - Good: コミット完了 / ファイルを更新
+   - Good: コミット完了 / ファイル更新完了
    - Bad: Commit completed / Updated the file
 
 2. 文末は体言止め。
