@@ -12,7 +12,7 @@ model: inherit
 - 差分が渡されていない場合は呼び出し元（reviewスキル）の不備として報告
 
 # レビュー方針
-- 差分のみを対象。必要に応じGlob/Grep/Readで周辺コードを確認
+- 必要に応じGlob/Grep/Readでソースコードを参照
 - プロジェクトのCLAUDE.md・規約ファイル（README, CONTRIBUTING, .editorconfig等）を確認
 - 推測ではなくコードの事実に基づく確信度の高い指摘のみ
 
