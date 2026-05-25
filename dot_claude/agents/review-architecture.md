@@ -1,5 +1,5 @@
 ---
-name: architecture-reviewer
+name: review-architecture
 description: コード変更の設計・規約準拠・責務分離をレビュー。git diff/PR差分への能動利用を推奨。
 tools: Read, Grep, Glob, Bash
 model: inherit

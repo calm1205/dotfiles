@@ -5,7 +5,7 @@ disable-model-invocation: true
 ---
 
 # 役割
-レビュー対象の差分取得処理を共通化。観点別レビューagent群（security-reviewer, architecture-reviewer, logic-reviewer, test-reviewer, tradeoff-analyst）の前段で利用。
+レビュー対象の差分取得処理を共通化。観点別レビューagent群（review-security, review-architecture, review-logic, review-test, review-tradeoff）の前段で利用。
 
 # ワークフロー
 

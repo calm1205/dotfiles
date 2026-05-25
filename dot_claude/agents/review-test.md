@@ -1,5 +1,5 @@
 ---
-name: test-reviewer
+name: review-test
 description: コード変更のテスト網羅性・品質をレビュー。git diff/PR差分への能動利用を推奨。
 tools: Read, Grep, Glob, Bash
 model: inherit

@@ -1,5 +1,5 @@
 ---
-name: security-reviewer
+name: review-security
 description: コード変更のセキュリティ脆弱性をOWASP Top 10:2025観点でレビュー。git diff/PR差分への能動利用を推奨。
 tools: Read, Grep, Glob, Bash
 model: inherit

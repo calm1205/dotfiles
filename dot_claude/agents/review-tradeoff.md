@@ -1,5 +1,5 @@
 ---
-name: tradeoff-analyst
+name: review-tradeoff
 description: コード変更が何を得て何を犠牲にしたかを問いとして提示。git diff/PR差分への能動利用を推奨。
 tools: Read, Grep, Glob, Bash
 model: inherit

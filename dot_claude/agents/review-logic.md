@@ -1,5 +1,5 @@
 ---
-name: logic-reviewer
+name: review-logic
 description: コード変更のバグ・エッジケース・エラーハンドリング・パフォーマンスをレビュー。git diff/PR差分への能動利用を推奨。
 tools: Read, Grep, Glob, Bash
 model: inherit
