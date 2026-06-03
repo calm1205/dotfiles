@@ -2,6 +2,7 @@
 # Work-only packages
 # ===================
 brew "awscli"       # AWS CLI
+cask "session-manager-plugin" # AWS Systems Manager Session Manager plugin
 brew "gmp"          # 多倍長演算ライブラリ
 brew "libyaml"      # YAML パーサライブラリ
 brew "mecab-ipadic" # MeCab用辞書（形態素解析）
