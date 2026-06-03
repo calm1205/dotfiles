@@ -26,6 +26,18 @@
           }
         ]
       }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "input=$(cat); echo \"$input\" | jq -e '.tool_input.command | test(\"(^|[;&|]\\\\s*|&&\\\\s*)\\\\s*git\\\\s+push\")' >/dev/null 2>&1 && jq -n '{hookSpecificOutput: {hookEventName: \"PostToolUse\", additionalContext: \"git push を検出。pr-sync skill を実行し、現在のブランチに紐づくPRのタイトル/概要を最新のコミット内容と整合させよ。PRが存在しなければスキップ。\"}}' || true",
+            "timeout": 10
+          }
+        ]
+      }
     ]
   }
 }
