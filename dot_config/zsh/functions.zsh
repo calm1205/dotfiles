@@ -13,8 +13,19 @@ gpr() {
 }
 
 # ディレクトリ移動時に.venvがあれば自動activate
+# VIRTUAL_ENV が存在しないパスを指している場合は deactivate してから再activate
 function auto_activate_venv() {
+  if [[ -n "$VIRTUAL_ENV" && ! -d "$VIRTUAL_ENV" ]]; then
+    if typeset -f deactivate > /dev/null; then
+      deactivate
+    else
+      unset VIRTUAL_ENV VIRTUAL_ENV_PROMPT
+    fi
+  fi
   if [[ -d ".venv" && -f ".venv/bin/activate" ]]; then
-    source .venv/bin/activate
+    if [[ "$VIRTUAL_ENV" != "$PWD/.venv" ]]; then
+      source .venv/bin/activate
+    fi
   fi
 }
+auto_activate_venv
