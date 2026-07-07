@@ -108,6 +108,9 @@ SPECIFY ──→ PLAN ──→ TASKS ──→ IMPLEMENT
 
 ### フェーズ3: Tasks(タスク分解)
 
+計画とタスク分解の詳細な手順は `planning-and-task-breakdown` skill に従う。
+それが正典。以下はインラインの要約。
+
 計画を離散的で実装可能なタスクへ分解する。
 
 - 各タスクは1回の集中セッションで完了可能
