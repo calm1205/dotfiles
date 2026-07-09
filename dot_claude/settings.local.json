@@ -10,7 +10,7 @@
       "Bash(git rm:*)",
       "Bash(git push:*)",
       "Skill(update-config)",
-      "Bash(afplay /System/Library/Sounds/Frog.aiff)",
+      "Bash(afplay /System/Library/Sounds/Glass.aiff)",
       "Bash(jq:*)",
       "Bash(git:*)"
     ]
@@ -21,7 +21,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "afplay /System/Library/Sounds/Frog.aiff &",
+            "command": "afplay /System/Library/Sounds/Glass.aiff &",
             "timeout": 10
           }
         ]
