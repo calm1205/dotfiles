@@ -1,7 +1,6 @@
 ---
 name: commit
 description: stageされていない変更をコミット
-disable-model-invocation: true
 ---
 
 # 役割
