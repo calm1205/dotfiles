@@ -17,6 +17,7 @@ return {
             "%..*cache.*/",
             "coverage/",
             "__pycache__",
+            "dist/",
           },
           vimgrep_arguments = {
             'rg',
