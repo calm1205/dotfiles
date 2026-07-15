@@ -68,8 +68,8 @@ return {
       },
     })
 
-    -- pyright
-    vim.lsp.config.pyright = {}
+    -- pylsp（jedi経由のcode jump/補完、デフォルト設定のまま利用）
+    vim.lsp.config.pylsp = {}
 
     -- vue_ls (Hybrid Mode: HTML/CSSのみ担当、TypeScriptはts_lsが担当)
     vim.lsp.config('vue_ls', {
@@ -81,6 +81,6 @@ return {
     })
 
     -- LSPサーバーを有効化
-    vim.lsp.enable({ "lua_ls", "ts_ls", "pyright", "vue_ls" })
+    vim.lsp.enable({ "lua_ls", "ts_ls", "pylsp", "vue_ls" })
   end,
 }
