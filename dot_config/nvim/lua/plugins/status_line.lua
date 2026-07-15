@@ -1,3 +1,4 @@
+-- lualine.nvim: mode/branch/diagnostics等を表示するステータスライン
 return {
     'nvim-lualine/lualine.nvim',
     event = 'VeryLazy',

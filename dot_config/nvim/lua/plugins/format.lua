@@ -1,3 +1,4 @@
+-- conform.nvim: oxfmt等を呼び出すフォーマッタ実行プラグイン
 return {
   "stevearc/conform.nvim",
   keys = {

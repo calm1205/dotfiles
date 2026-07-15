@@ -1,3 +1,4 @@
+-- telescope.nvim: ファイル/grep等をあいまい検索するファジーファインダー
 return {
     'nvim-telescope/telescope.nvim', version = '*',
     cmd = 'Telescope',

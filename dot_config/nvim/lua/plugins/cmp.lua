@@ -1,3 +1,4 @@
+-- nvim-cmp: LSP/buffer/path/cmdline由来の候補を統合する補完エンジン
 return {
   "hrsh7th/nvim-cmp",
   event = { "InsertEnter", "CmdlineEnter" },

@@ -1,3 +1,4 @@
+-- nvim-ufo: treesitter/indentベースの高機能fold(折り畳み)プラグイン
 return {
   'kevinhwang91/nvim-ufo',
   event = 'BufReadPost',

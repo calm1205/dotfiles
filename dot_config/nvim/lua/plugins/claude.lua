@@ -1,3 +1,4 @@
+-- claudecode.nvim: Claude Codeをnvim内蔵ターミナルから操作するプラグイン
 return {
   "coder/claudecode.nvim",
   dependencies = { "folke/snacks.nvim" },

@@ -1,3 +1,4 @@
+-- nvim-tree.lua: ファイルツリーをサイドバー表示するプラグイン
 return {
   "nvim-tree/nvim-tree.lua",
   version = "*",

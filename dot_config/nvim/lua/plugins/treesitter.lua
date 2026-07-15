@@ -1,3 +1,4 @@
+-- nvim-treesitter: 構文解析ベースのhighlight/parserを管理するプラグイン
 return {
   'nvim-treesitter/nvim-treesitter',
   lazy = false,

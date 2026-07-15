@@ -1,3 +1,4 @@
+-- mini.jump2d: ラベル選択で画面内の単語へ高速ジャンプするプラグイン
 return {
   'echasnovski/mini.jump2d',
   version = '*',

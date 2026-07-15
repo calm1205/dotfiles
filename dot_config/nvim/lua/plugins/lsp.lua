@@ -1,3 +1,4 @@
+-- nvim-lspconfig: 各言語LSPサーバーの設定・有効化
 return {
   "neovim/nvim-lspconfig",
   event = { "BufReadPre", "BufNewFile" },
