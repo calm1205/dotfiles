@@ -1,6 +1,9 @@
 # uv
 export PATH="$PATH:$HOME/.local/bin"
 
+# cargo
+export PATH="$PATH:$HOME/.cargo/bin"
+
 # fzf
 source <(fzf --zsh)
 
