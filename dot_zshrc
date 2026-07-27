@@ -2,3 +2,6 @@
 for config in ~/.config/zsh/*.zsh; do
   source "$config"
 done
+
+# zoxide: 全設定読み込み後の最後に初期化する必要がある
+eval "$(zoxide init zsh)"
