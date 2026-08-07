@@ -18,6 +18,7 @@ GitHub Pull Requestの新規Draft作成
 - `gh pr create --draft`で作成
 - PRテンプレート（`.github/PULL_REQUEST_TEMPLATE.md`等）があれば使用
 - base branchは引数指定があればそれを使用、なければ`development`
+- 関連issueを解決するPRでは、bodyに`Closes #<番号>`を記載
 
 # 完了条件
 - [ ] Draftとして作成済み
@@ -25,4 +26,4 @@ GitHub Pull Requestの新規Draft作成
 - [ ] タイトルにconventional commitプレフィックス付き（`feat:`, `fix:`, `refactor:`等）
 - [ ] base branchが引数指定（なければ`development`）と一致
 - [ ] PRテンプレートがあれば反映済み
-- [ ] issue参照は番号のみ（`#100`）で自動クローズ構文（`Closes #100`等）を含まない
+- [ ] 関連issueがある場合、bodyに`Closes #100`等の自動クローズ構文を記載してよい
