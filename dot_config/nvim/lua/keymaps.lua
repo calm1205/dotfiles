@@ -19,11 +19,6 @@ map('n', '<Leader>qa', ':<C-u>qa\n',  { noremap = true })
 -- ターミナルを開く（水平分割、下に表示）
 map('n', '<Leader>tt', ':botright split | terminal<CR>', { noremap = true })
 
--- Claude Code / Terminal操作
--- Ctrl+]: normalモードならClaude Codeにフォーカス、terminalモードならnormalモードへ
-map('n', '<C-]>', '<cmd>ClaudeCodeFocus<cr>', { desc = 'Focus Claude Code' })
-map('t', '<C-]>', '<C-\\><C-n><C-w>h', { desc = 'Exit terminal and move to editor' })
-
 -- LSP警告表示
 map(
   'n',
