@@ -15,7 +15,6 @@ brew "ripgrep"             # 高速grep
 brew "jq"                  # JSONプロセッサ
 brew "tree"                # ディレクトリツリー表示
 brew "gat"                 # catの代替（シンタックスハイライト）
-brew "broot"               # ファイルマネージャ
 brew "gh"                  # GitHub CLI
 
 # ===================
