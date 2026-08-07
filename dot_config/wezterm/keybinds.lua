@@ -6,6 +6,11 @@ local M = {}
 function M.apply(config)
   config.keys = {
     {
+      key = "Enter",
+      mods = "SHIFT",
+      action = act.SendString("\n"),
+    },
+    {
       key = "¥",
       action = act.SendString("\\"),
     },
