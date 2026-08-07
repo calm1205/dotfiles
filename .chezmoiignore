@@ -11,3 +11,4 @@
 {{ end }}
 
 README.md
+shared_agent/
