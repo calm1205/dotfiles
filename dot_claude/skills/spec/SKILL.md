@@ -9,7 +9,15 @@ disable-model-invocation: true
 ## 概要
 
 コードを書く前に構造化された仕様書を作成する。
-`SPEC.md`は自分と人間エンジニアの間の唯一の真実の源であり、「何を・なぜ作るか」「完了をどう判断するか」を定義する。
+`design_doc/SPEC.md`は自分と人間エンジニアの間の唯一の真実の源であり、「何を・なぜ作るか」「完了をどう判断するか」を定義する。
+
+## 成果物のパス
+
+| 成果物 | パス |
+| --- | --- |
+| 仕様 | `design_doc/SPEC.md` |
+| 計画 | `design_doc/task/plan.md` |
+| タスク | `design_doc/task/todo.md` |
 
 ## ゲート付きワークフロー
 
@@ -20,12 +28,12 @@ disable-model-invocation: true
 要件が具体化するまで人間へ質問する。
 
 前提をただちに明示する。
-`SPEC.md`本文を書く前に、想定している前提を列挙する。
+`design_doc/SPEC.md`本文を書く前に、想定している前提を列挙する。
 
 曖昧な要件をユーザーの確認なしに埋めない。
-`SPEC.md`の目的は、コードが書かれる*前に*認識の齟齬を表面化させること。
+`design_doc/SPEC.md`の目的は、コードが書かれる*前に*認識の齟齬を表面化させること。
 
-以下6つのコア領域を網羅した`SPEC.md`を書く:
+以下6つのコア領域を網羅した`design_doc/SPEC.md`を書く:
 
 1. 目的 — 何を・なぜ作るか。ユーザーは誰か。成功とは何か。
 2. コードスタイル — 実際のコード片1つが、3段落の説明に勝る。命名規則・整形ルール・良い出力例を含める。
@@ -37,7 +45,7 @@ disable-model-invocation: true
 5. 成功基準 — 完了をどう判断するか。具体的でテスト可能な条件。
 6. 未解決の問い — 人間の入力が必要な未解決事項。
 
-`SPEC.md`テンプレート:
+`design_doc/SPEC.md`テンプレート:
 
 ```markdown
 # Spec: [プロジェクト/機能名]
@@ -84,11 +92,12 @@ disable-model-invocation: true
 
 これにより、「速く」の意味を推測せず、明確なゴールへ向けて反復・再試行・問題解決ができる。
 
-生成した`SPEC.md`はプロジェクトルートに `./design_doc/SPEC.md` として保存し、続行前にユーザーへ確認する。
+生成した`design_doc/SPEC.md`を保存し、続行前にユーザーへ確認する。
+`design_doc/`が無ければ作成する。
 
 ### フェーズ2: Plan(計画)
 
-検証済み`SPEC.md`をもとに、技術的な実装計画を生成する。
+検証済み`design_doc/SPEC.md`をもとに、技術的な実装計画を生成する。
 
 1. 主要コンポーネントとその依存関係を特定
 2. 実装順序を決定(何を先に作るべきか)
@@ -99,20 +108,20 @@ disable-model-invocation: true
 計画はレビュー可能であること。
 人間が読んで「このアプローチで良い」または「Xを変えよ」と言える状態。
 
-### フェーズ3: Tasks(`TASK.md`)
+### フェーズ3: Tasks(タスク分解)
 
-計画と`TASK.md`作成の詳細な手順は `planning-and-task-breakdown` skill に従う。
+計画とタスク分解の詳細な手順は `planning-and-task-breakdown` skill に従う。
 以下はインラインの要約。
 
-計画を`TASK.md`へ分解する。
+計画は `design_doc/task/plan.md` に、タスクリストは `design_doc/task/todo.md` に分解して保存する。
 
-- `TASK.md`の各項目は1回の集中セッションで完了可能
-- `TASK.md`の各項目に明示的な受け入れ基準
-- `TASK.md`の各項目に検証手順(テスト・ビルド・手動確認)を含む
-- `TASK.md`の項目は重要度ではなく依存関係で順序付け
-- `TASK.md`の1項目で変更するファイルは約5個まで
+- `design_doc/task/todo.md`の各項目は1回の集中セッションで完了可能
+- `design_doc/task/todo.md`の各項目に明示的な受け入れ基準
+- `design_doc/task/todo.md`の各項目に検証手順(テスト・ビルド・手動確認)を含む
+- `design_doc/task/todo.md`の項目は重要度ではなく依存関係で順序付け
+- `design_doc/task/todo.md`の1項目で変更するファイルは約5個まで
 
-`TASK.md`テンプレート:
+`design_doc/task/todo.md`テンプレート:
 
 ```markdown
 - [ ] Task: [説明]
@@ -123,29 +132,29 @@ disable-model-invocation: true
 
 ### フェーズ4: Implement(実装)
 
-`TASK.md`の項目を1つずつ実行する。
-`SPEC.md`全体を流し込むのではなく、各ステップで適切な`SPEC.md`節・`TASK.md`項目とソースファイルのみを読み込む。
+`design_doc/task/todo.md`の項目を1つずつ実行する。
+`design_doc/SPEC.md`全体を流し込むのではなく、各ステップで適切な節・`design_doc/task/todo.md`項目とソースファイルのみを読み込む。
 
-## `SPEC.md`を生かし続ける
+## `design_doc/SPEC.md`を生かし続ける
 
-`SPEC.md`は一度きりの成果物ではなく、生きた文書。
+`design_doc/SPEC.md`は一度きりの成果物ではなく、生きた文書。
 
-- 決定が変わったら更新 — データモデル変更が必要と分かったら、まず`SPEC.md`を更新し、その後実装。
-- スコープが変わったら更新 — 追加・削除された機能を`SPEC.md`に反映。
+- 決定が変わったら更新 — データモデル変更が必要と分かったら、まず`design_doc/SPEC.md`を更新し、その後実装。
+- スコープが変わったら更新 — 追加・削除された機能を`design_doc/SPEC.md`に反映。
 
 ## レッドフラグ
 
 - 書かれた要件なしにコードを書き始める
 - 「完了」の意味を明確にする前に「もう作り始めていい?」と聞く
-- どの`SPEC.md`・`TASK.md`にも無い機能を実装する
+- どの`design_doc/SPEC.md`・`design_doc/task/todo.md`にも無い機能を実装する
 - 文書化せずにアーキテクチャ上の決定を行う
-- 「作るものは自明」として`SPEC.md`を飛ばす
+- 「作るものは自明」として`design_doc/SPEC.md`を飛ばす
 
 ## 完了条件
 
 - [ ] 意図把握と4項目(目的/コア機能/技術制約/境界)の確認質問を実施
-- [ ] `SPEC.md`が6つのコア領域を網羅
+- [ ] `design_doc/SPEC.md`が6つのコア領域を網羅
 - [ ] 成功基準が具体的でテスト可能
 - [ ] 境界(常に行う/事前確認/絶対にしない)が定義済み
-- [ ] プロジェクトルートに `SPEC.md` を保存
+- [ ] `design_doc/SPEC.md`を保存
 - [ ] 続行前にユーザーへ確認
