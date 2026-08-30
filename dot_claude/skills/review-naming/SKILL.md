@@ -32,7 +32,7 @@ description: 目的駆動名前設計にもとづき不適切な命名を検出�
 
 | スメル | 検出シグナル | 問題 | 改善の方向 |
 |--------|-------------|------|-----------|
-| **曖昧動詞** | `require~`, `prepare~`, `read~`, `load~`（単体または目的語不足） | 副作用（検証・初期化・I/O等）が想像できない | 具体動詞（`assertAuthenticated`, `fetchOrderFromDb`, `parseConfigFile` 等） |
+| **曖昧動詞** | `require~`, `prepare~`, `read~`, `load~`, `parse~`（単体または取得元・戻り値不足） | 処理内容と戻り値が想像できない | 具体動詞+取得元/キー（`fetchOrderById`, `fetchConfigFromFile`, `assertAuthenticated` 等） |
 | **for目的語** | `buildForUser`, `validateForOrder`, `calculateForCheckout` | 目的語を関数名に置くのは責務分離の失敗 | 目的語をクラス化し動詞1語化（`UserBuilder#build`, `OrderValidator#validate` 等） |
 | **複数責務（And）** | `validateAndSave`, `fetchAndProcess`, `createAndNotify` | 1関数が複数操作を束ね、分割・テスト困難 | 操作ごとに関数分割、オーケストレーション層へ |
 | **拡張表現（With）** | `UserWithProfile`, `OrderWithItems`, `ProductModelWithDetails` | ベース+αの付加命名で目的・役割が見えない | +αの目的を表すドメイン名（`EnrichedUser`, `ShippableOrder` 等） |
@@ -80,13 +80,27 @@ description: 目的駆動名前設計にもとづき不適切な命名を検出�
 - ❌ `Enemy#addItemToParty`
 - ✅ `PartyItems#add`
 
+### 処理・戻り値テスト
+
+名前だけで次の両方が想像できるか。
+
+- **処理:** 何をするか（取得・検証・構築・永続化等）
+- **戻り値:** 何が返るか（`Order`, `Config`, `void` 等）
+
+取得系は `fetch~` を優先する。
+取得元（`FromFile`, `FromDb`, `ById` 等）と戻り値の型が名前に現れること。
+
+- ❌ `loadConfig()`, `parseConfig()`, `read(id)` — 処理・戻り値のどちらかが不明
+- ✅ `fetchConfigFromFile(path)`, `fetchOrderById(id)`, `fetchUserFromRepository(id)`
+
 ### 曖昧動詞アラート
 
-`require` / `prepare` / `read` / `load` は汎用動詞であり、副作用の内容が名前から読み取れない。
-`load~` は**禁止**。取得元（DB・ファイル・キャッシュ等）と操作（取得・復元・解析等）が名前から想像できない。
+`require` / `prepare` / `read` / `load` / `parse` は汎用動詞であり、処理内容と戻り値が名前から読み取れない。
+`load~` は**禁止**。
+`parse~` も取得元・戻り値が名前に現れなければ**禁止**。
 
-- ❌ `require(user)`, `prepare(order)`, `read(id)`, `loadConfig()`, `loadUser(id)` — 何を保証・構築・取得するか不明
-- ✅ `assertUserIsAuthenticated(user)`, `buildShipment(order)`, `fetchOrderById(id)`, `parseConfigFromFile(path)`
+- ❌ `require(user)`, `prepare(order)`, `read(id)`, `loadConfig()`, `parseConfig()`, `loadUser(id)` — 何を保証・構築・取得するか不明
+- ✅ `assertUserIsAuthenticated(user)`, `buildShipment(order)`, `fetchOrderById(id)`, `fetchConfigFromFile(path)`
 
 ### for目的語アラート
 
@@ -134,7 +148,7 @@ description: 目的駆動名前設計にもとづき不適切な命名を検出�
 | レベル | 基準 | 例 |
 |--------|------|-----|
 | 🔴 **Critical** | 誤解・バグ・設計崩壊を直接招く | 驚き違反、`tmp` だらけ、Manager への無制限追加 |
-| 🟡 **Warning** | 保守性・拡張性を著しく下げる | 曖昧動詞（`load~` 含む）、`for~` 目的語、技術駆動命名、And 複数責務、With 拡張命名、動詞+目的語の責務逸脱 |
+| 🟡 **Warning** | 保守性・拡張性を著しく下げる | 曖昧動詞（`load~`/`parse~` 含む）、`for~` 目的語、技術駆動命名、And 複数責務、With 拡張命名、動詞+目的語の責務逸脱 |
 | 🟢 **Suggestion** | より良い名前があり改善余地 | やや広い名前、省略の余地 |
 
 ## 出力フォーマット
@@ -243,7 +257,7 @@ Order read(String id) { ... }
 void require(Member member) { ... }
 ```
 
-- 🟡 初期化・取得・検証のどれか不明、副作用が想像できない
+- 🟡 初期化・取得・検証のどれか不明、処理・戻り値が想像できない
 - 提案: `initializePayment(session)`, `fetchOrderById(id)`, `assertMemberCanPurchase(member)`
 
 ### 例9: load 曖昧動詞（禁止）
@@ -254,7 +268,7 @@ User loadUser(String id) { ... }
 ```
 
 - 🟡 ファイル読込・DB取得・キャッシュ復元のどれか不明
-- 提案: `parseConfigFromFile(path)`, `fetchUserFromRepository(id)`
+- 提案: `fetchConfigFromFile(path)`, `fetchUserById(id)`
 
 ### 例10: for目的語（禁止）
 
