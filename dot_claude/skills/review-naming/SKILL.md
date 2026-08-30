@@ -32,11 +32,13 @@ description: 目的駆動名前設計にもとづき不適切な命名を検出�
 
 | スメル | 検出シグナル | 問題 | 改善の方向 |
 |--------|-------------|------|-----------|
+| **複数責務（And）** | `validateAndSave`, `fetchAndProcess`, `createAndNotify` | 1関数が複数操作を束ね、分割・テスト困難 | 操作ごとに関数分割、オーケストレーション層へ |
+| **拡張表現（With）** | `UserWithProfile`, `OrderWithItems`, `ProductModelWithDetails` | ベース+αの付加命名で目的・役割が見えない | +αの目的を表すドメイン名（`EnrichedUser`, `ShippableOrder` 等） |
 | **意図不明** | `tmp`, `data`, `result`, `flag`, `info`, `value01` | 翻訳コスト・誤解・バグ誘発 | 目的・計算内容を表す具体名 |
 | **技術駆動** | `Memory`, `Flag`, `Int`, `Manager`, `Handler`, 型名そのまま | ビジネス目的が見えない | ドメイン用語・達成目的で命名 |
 | **ロジックなぞり** | `isAAndBAndC...`, 条件式の直写 | 意図が伝わらない | 判定の目的名（例: `canChant`） |
 | **驚き違反** | getter/カウント系が副作用を持つ | 呼び出し側の想定を裏切る | 責務分離（取得 / 判定 / 実行） |
-| **データクラス名** | `~Info`, `~Data`（DTO 意図以外） | ロジック実装を抑制し低凝集化 | ドメイン名（`Product` 等）へ |
+| **データクラス名** | `~Info`, `~Data`, `~Model`（DTO 意図以外） | ロジック実装を抑制し低凝集化 | ドメイン名（`Product` 等）へ |
 | **巨大化誘発** | `Manager`, `Processor`, `Controller`, `WorkflowManager` | 何でも追加可能に見える | 狭い概念ごとにクラス分割 |
 | **コンテキスト混在** | 同一クラス名が文脈で意味が変わる（`Account`, `Car`） | 密結合・変更影響拡大 | コンテキスト別パッケージ/クラス |
 | **連番命名** | `Class001`, `method002`, `changeIntValue01` | リネーム困難・TPS化 | 目的ベース名への組織的移行 |
@@ -76,6 +78,25 @@ description: 目的駆動名前設計にもとづき不適切な命名を検出�
 - ❌ `Enemy#addItemToParty`
 - ✅ `PartyItems#add`
 
+### And アラート
+
+関数名に `And` が含まれる場合、複数責務の危険信号として扱う。
+
+- ❌ `validateAndSave(order)` — 検証と永続化が混在
+- ✅ `validate(order)` / `save(order)`、呼び出し側またはユースケース層で合成
+
+「AしてBする」が1語で読めるなら、分割またはオーケストレーション層への移動を検討する。
+
+### With / Data / Model アラート
+
+型名の `With` は、ベースモデルへの付加（+α）を示す。
+`~Data` / `~Model` も容器名であり、目的・役割を隠す。
+
+- ❌ `UserWithProfile`, `OrderData`, `ProductModelWithInventory`
+- ✅ `RegisteredUser`, `CheckoutOrder`, `StockedProduct`（+αの目的を名前化）
+
+「何を足したか」ではなく「その合成が何のためか」を名前に反映する。
+
 ### 形容詞アラート
 
 説明に形容詞が必要なら、別概念の可能性。
@@ -88,7 +109,7 @@ description: 目的駆動名前設計にもとづき不適切な命名を検出�
 | レベル | 基準 | 例 |
 |--------|------|-----|
 | 🔴 **Critical** | 誤解・バグ・設計崩壊を直接招く | 驚き違反、`tmp` だらけ、Manager への無制限追加 |
-| 🟡 **Warning** | 保守性・拡張性を著しく下げる | 技術駆動命名、動詞+目的語の責務逸脱 |
+| 🟡 **Warning** | 保守性・拡張性を著しく下げる | 技術駆動命名、And 複数責務、With 拡張命名、動詞+目的語の責務逸脱 |
 | 🟢 **Suggestion** | より良い名前があり改善余地 | やや広い名前、省略の余地 |
 
 ## 出力フォーマット
@@ -170,6 +191,25 @@ class Enemy {
 - 🟡 敵の関心事外
 - 提案: `PartyItems#add(Item)`
 
+### 例6: And 複数責務
+
+```java
+void validateAndSave(Order order) { ... }
+```
+
+- 🟡 検証と永続化が1関数に混在
+- 提案: `validate(order)` / `save(order)`、ユースケース層で順序制御
+
+### 例7: With 拡張命名
+
+```java
+class UserWithProfile { ... }
+class OrderData { ... }
+```
+
+- 🟡 ベース+α・容器名で目的が不明
+- 提案: `RegisteredUser`, `CheckoutOrder` 等、+αの役割を表す名前
+
 ## 例外（指摘しない／慎重に）
 
 | ケース | 条件 |
@@ -177,5 +217,6 @@ class Enemy {
 | ループカウンタ | `i`, `j` 等、スコープが極小 |
 | 慣習的略語 | `SNS`, `VIP`, `DTO`, `HTTP` 等、チーム内共通 |
 | CQRS 参照系 DTO | 参照専用・`final` フィールド・更新系で未使用 |
+| フルエント API | `withRetryPolicy()` 等、ビルダー/設定チェーンの `with~` |
 | 組込み/low-level | ハードウェア直アクセス層（可能な限り目的は残す） |
 
