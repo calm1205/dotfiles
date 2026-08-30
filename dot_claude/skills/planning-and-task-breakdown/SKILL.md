@@ -239,4 +239,3 @@ L以上のタスクは、より小さく分解する。
 
 受け入れ基準はタスクごとで「正しいものを作ったか」に答える。
 その土台に、全タスクが満たすプロジェクト共通の Definition of Done がある。
-`references/definition-of-done.md` を参照。
