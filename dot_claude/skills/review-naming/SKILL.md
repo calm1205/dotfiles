@@ -32,6 +32,7 @@ description: 目的駆動名前設計にもとづき不適切な命名を検出�
 
 | スメル | 検出シグナル | 問題 | 改善の方向 |
 |--------|-------------|------|-----------|
+| **曖昧動詞** | `require~`, `prepare~`, `read~`（単体または目的語不足） | 副作用（検証・初期化・I/O等）が想像できない | 具体動詞+目的語（`assertAuthenticated`, `loadConfig`, `fetchOrder` 等） |
 | **複数責務（And）** | `validateAndSave`, `fetchAndProcess`, `createAndNotify` | 1関数が複数操作を束ね、分割・テスト困難 | 操作ごとに関数分割、オーケストレーション層へ |
 | **拡張表現（With）** | `UserWithProfile`, `OrderWithItems`, `ProductModelWithDetails` | ベース+αの付加命名で目的・役割が見えない | +αの目的を表すドメイン名（`EnrichedUser`, `ShippableOrder` 等） |
 | **意図不明** | `tmp`, `data`, `result`, `flag`, `info`, `value01` | 翻訳コスト・誤解・バグ誘発 | 目的・計算内容を表す具体名 |
@@ -78,6 +79,18 @@ description: 目的駆動名前設計にもとづき不適切な命名を検出�
 - ❌ `Enemy#addItemToParty`
 - ✅ `PartyItems#add`
 
+### 曖昧動詞アラート
+
+`require` / `prepare` / `read` は汎用動詞であり、副作用の内容が名前から読み取れない。
+
+- ❌ `require(user)`, `prepare(order)`, `read(id)` — 何を保証・構築・取得するか不明
+- ✅ `assertUserIsAuthenticated(user)`, `buildShipment(order)`, `fetchOrderById(id)`
+
+名前だけで次を答えられるか確認する。
+
+- 副作用はあるか（検証失敗で例外、DB書込、外部API呼出等）
+- 副作用がなければ、なぜその汎用動詞なのか
+
 ### And アラート
 
 関数名に `And` が含まれる場合、複数責務の危険信号として扱う。
@@ -109,7 +122,7 @@ description: 目的駆動名前設計にもとづき不適切な命名を検出�
 | レベル | 基準 | 例 |
 |--------|------|-----|
 | 🔴 **Critical** | 誤解・バグ・設計崩壊を直接招く | 驚き違反、`tmp` だらけ、Manager への無制限追加 |
-| 🟡 **Warning** | 保守性・拡張性を著しく下げる | 技術駆動命名、And 複数責務、With 拡張命名、動詞+目的語の責務逸脱 |
+| 🟡 **Warning** | 保守性・拡張性を著しく下げる | 曖昧動詞、技術駆動命名、And 複数責務、With 拡張命名、動詞+目的語の責務逸脱 |
 | 🟢 **Suggestion** | より良い名前があり改善余地 | やや広い名前、省略の余地 |
 
 ## 出力フォーマット
@@ -210,6 +223,17 @@ class OrderData { ... }
 - 🟡 ベース+α・容器名で目的が不明
 - 提案: `RegisteredUser`, `CheckoutOrder` 等、+αの役割を表す名前
 
+### 例8: 曖昧動詞
+
+```java
+void prepare(CheckoutSession session) { ... }
+Order read(String id) { ... }
+void require(Member member) { ... }
+```
+
+- 🟡 初期化・取得・検証のどれか不明、副作用が想像できない
+- 提案: `initializePayment(session)`, `fetchOrderById(id)`, `assertMemberCanPurchase(member)`
+
 ## 例外（指摘しない／慎重に）
 
 | ケース | 条件 |
@@ -218,5 +242,7 @@ class OrderData { ... }
 | 慣習的略語 | `SNS`, `VIP`, `DTO`, `HTTP` 等、チーム内共通 |
 | CQRS 参照系 DTO | 参照専用・`final` フィールド・更新系で未使用 |
 | フルエント API | `withRetryPolicy()` 等、ビルダー/設定チェーンの `with~` |
+| I/O プロトコル | `InputStream#read`, `Reader#read` 等、入出力がクラスの本質である場合 |
+| 言語/フレームワーク慣習 | Node.js `require()`, Rust `std::io::Read` 等、エコシステム標準 |
 | 組込み/low-level | ハードウェア直アクセス層（可能な限り目的は残す） |
 
