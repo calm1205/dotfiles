@@ -30,7 +30,7 @@ GitHub Issueの内容に基づくコード修正からPR作成までの一括実
 - `/commit` スキルに従う
 
 ## 5. PR Draft作成
-- `/pr` スキルに従う
+- `/pr-create` スキルに従う
 - bodyにissue番号（`#<番号>`）を記載
 
 # 完了条件
@@ -38,5 +38,5 @@ GitHub Issueの内容に基づくコード修正からPR作成までの一括実
 - [ ] 必要なテストを追加/修正
 - [ ] `development`から作成した専用ブランチ上で作業
 - [ ] `/commit`の完了条件を満たすコミット
-- [ ] `/pr`の完了条件を満たすDraft PR
+- [ ] `/pr-create`の完了条件を満たすDraft PR
 - [ ] PR bodyにissue番号（`#<番号>`）を記載
