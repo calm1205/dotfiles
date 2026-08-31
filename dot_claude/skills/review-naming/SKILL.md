@@ -33,7 +33,7 @@ description: 目的駆動名前設計にもとづき不適切な命名を検出�
 | スメル | 検出シグナル | 問題 | 改善の方向 |
 |--------|-------------|------|-----------|
 | **引数重複** | `extractFromCsv(csv_path)`, `OrderRepository#fetchFromDb(user_id)` 等、引数名・型または所属クラスで取得元・対象が自明 | 名前と引数（または文脈）が同じ事実を二重に述べる | 引数・文脈で自明な修飾子（`FromCsv`, `FromDb`, `InDir` 等）を削除 |
-| **曖昧動詞** | `require~`, `prepare~`, `read~`, `load~`, `parse~`, `assert~`（単体または取得元・戻り値・検証対象不足）、`get~`, `has~`, `isValid~`（対象・条件不足） | 処理内容・戻り値・検証内容が想像できない | 具体動詞+取得元/キー/条件（`fetchOrderById`, `getAuthenticatedUser`, `isAuthenticated`, `hasPermission` 等） |
+| **曖昧動詞** | `require~`, `prepare~`, `read~`, `load~`, `parse~`, `assert~`（単体または取得元・戻り値・検証対象不足）、`get~`, `has~`, `isValid~`（対象・条件不足） | 処理内容・戻り値・検証内容が想像できない | 具体動詞+取得元/キー/条件（`fetchOrderById`, `getAuthenticatedUser`, `isAuthenticated`, `hasMinimumOrderAmount(cart)` 等） |
 | **for目的語** | `buildForUser`, `validateForOrder`, `calculateForCheckout` | 目的語を関数名に置くのは責務分離の失敗 | 目的語をクラス化し動詞1語化（`UserBuilder#build`, `OrderValidator#validate` 等） |
 | **複数責務（And）** | `validateAndSave`, `fetchAndProcess`, `createAndNotify` | 1関数が複数操作を束ね、分割・テスト困難 | 操作ごとに関数分割、オーケストレーション層へ |
 | **拡張表現（With）** | `UserWithProfile`, `OrderWithItems`, `ProductModelWithDetails` | ベース+αの付加命名で目的・役割が見えない | +αの目的を表すドメイン名（`EnrichedUser`, `ShippableOrder` 等） |
