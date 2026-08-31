@@ -32,7 +32,7 @@ description: 目的駆動名前設計にもとづき不適切な命名を検出�
 
 | スメル | 検出シグナル | 問題 | 改善の方向 |
 |--------|-------------|------|-----------|
-| **引数重複** | `extractFromCsv(csv_path)`, `fetchFromDb(user_id)` 等、引数名・型で取得元・対象が自明 | 名前と引数が同じ事実を二重に述べる | 引数で自明な修飾子（`FromCsv`, `FromDb`, `InDir` 等）を削除 |
+| **引数重複** | `extractFromCsv(csv_path)`, `OrderRepository#fetchFromDb(user_id)` 等、引数名・型または所属クラスで取得元・対象が自明 | 名前と引数（または文脈）が同じ事実を二重に述べる | 引数・文脈で自明な修飾子（`FromCsv`, `FromDb`, `InDir` 等）を削除 |
 | **曖昧動詞** | `require~`, `prepare~`, `read~`, `load~`, `parse~`, `assert~`（単体または取得元・戻り値・検証対象不足）、`get~`, `has~`, `isValid~`（対象・条件不足） | 処理内容・戻り値・検証内容が想像できない | 具体動詞+取得元/キー/条件（`fetchOrderById`, `getAuthenticatedUser`, `isAuthenticated`, `hasPermission` 等） |
 | **for目的語** | `buildForUser`, `validateForOrder`, `calculateForCheckout` | 目的語を関数名に置くのは責務分離の失敗 | 目的語をクラス化し動詞1語化（`UserBuilder#build`, `OrderValidator#validate` 等） |
 | **複数責務（And）** | `validateAndSave`, `fetchAndProcess`, `createAndNotify` | 1関数が複数操作を束ね、分割・テスト困難 | 操作ごとに関数分割、オーケストレーション層へ |
@@ -88,13 +88,14 @@ description: 目的駆動名前設計にもとづき不適切な命名を検出�
 - **処理:** 何をするか（取得・検証・構築・永続化等）
 - **戻り値:** 何が返るか（`Order`, `Config`, `void` 等）
 
-取得元（`FromFile`, `FromDb`, `ById` 等）は、**引数だけでは判別できないとき**名前に含める。
-引数名・型で取得元や対象が一意に決まるなら、名前に含めない。
+取得元（`FromFile`, `FromDb`, `ById` 等）は、**引数・文脈だけでは判別できないとき**名前に含める。
+引数名・型、または所属クラスで取得元や対象が一意に決まるなら、名前に含めない。
 
 - ❌ `loadConfig()`, `parseConfig()`, `read(id)` — 処理・戻り値のどちらかが不明
 - ❌ `extractDriveDocumentUrlsFromCsv(csv_path)` — `csv_path` で CSV 由来は自明
 - ✅ `fetchOrderById(id)`, `getUserFromRepository(id)` — `id` だけでは取得元が不明
 - ✅ `extractDriveDocumentUrls(csv_path)`, `fetchConfig(config_file_path)` — 引数で取得元が自明
+- ✅ `OrderRepository#fetch(user_id)` — Repository 文脈で DB 取得は自明
 
 ### 曖昧動詞アラート
 
@@ -111,9 +112,11 @@ description: 目的駆動名前設計にもとづき不適切な命名を検出�
 - ✅ `extractDriveDocumentUrls(csv_path: Path)`
 - ❌ `collectDriveDocumentUrlsInMappingsDir(mappings_dir: Path)` → `mappings_dir` でディレクトリ走査は自明
 - ✅ `collectDriveDocumentUrls(mappings_dir: Path)`
+- ❌ `OrderRepository#fetchFromDb(user_id: UserId)` → Repository 文脈で DB 取得は自明
+- ✅ `OrderRepository#fetch(user_id: UserId)`
 - ✅ `fetchOrderById(id: OrderId)` — `id` だけでは DB / キャッシュ / API の区別がつかないため `ById` は残す
 
-**原則:** 引数で自明な事実は命名に含めない。名前は引数が伝えない情報（戻り値の意味、処理の目的、取得元の曖昧さの解消）に使う。
+**原則:** 引数または所属クラスで自明な事実は命名に含めない。名前は引数・文脈が伝えない情報（戻り値の意味、処理の目的、取得元の曖昧さの解消）に使う。
 
 ### for目的語アラート
 
