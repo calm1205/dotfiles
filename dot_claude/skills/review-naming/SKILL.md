@@ -33,7 +33,7 @@ description: 目的駆動名前設計にもとづき不適切な命名を検出�
 | スメル | 検出シグナル | 問題 | 改善の方向 |
 |--------|-------------|------|-----------|
 | **引数重複** | `extractFromCsv(csv_path)`, `fetchFromDb(user_id)` 等、引数名・型で取得元・対象が自明 | 名前と引数が同じ事実を二重に述べる | 引数で自明な修飾子（`FromCsv`, `FromDb`, `InDir` 等）を削除 |
-| **曖昧動詞** | `require~`, `prepare~`, `read~`, `load~`, `parse~`（単体または取得元・戻り値不足） | 処理内容と戻り値が想像できない | 具体動詞+取得元/キー（`fetchOrderById`, `fetchConfigFromFile`, `assertAuthenticated` 等） |
+| **曖昧動詞** | `require~`, `prepare~`, `read~`, `load~`, `parse~`, `assert~`（単体または取得元・戻り値・検証対象不足）、`get~`, `has~`, `isValid~`（対象・条件不足） | 処理内容・戻り値・検証内容が想像できない | 具体動詞+取得元/キー/条件（`fetchOrderById`, `getAuthenticatedUser`, `isAuthenticated`, `hasPermission` 等） |
 | **for目的語** | `buildForUser`, `validateForOrder`, `calculateForCheckout` | 目的語を関数名に置くのは責務分離の失敗 | 目的語をクラス化し動詞1語化（`UserBuilder#build`, `OrderValidator#validate` 等） |
 | **複数責務（And）** | `validateAndSave`, `fetchAndProcess`, `createAndNotify` | 1関数が複数操作を束ね、分割・テスト困難 | 操作ごとに関数分割、オーケストレーション層へ |
 | **拡張表現（With）** | `UserWithProfile`, `OrderWithItems`, `ProductModelWithDetails` | ベース+αの付加命名で目的・役割が見えない | +αの目的を表すドメイン名（`EnrichedUser`, `ShippableOrder` 等） |
@@ -43,12 +43,12 @@ description: 目的駆動名前設計にもとづき不適切な命名を検出�
 | **驚き違反** | getter/カウント系が副作用を持つ | 呼び出し側の想定を裏切る | 責務分離（取得 / 判定 / 実行） |
 | **データクラス名** | `~Info`, `~Data`, `~Model`（DTO 意図以外） | ロジック実装を抑制し低凝集化 | ドメイン名（`Product` 等）へ |
 | **巨大化誘発** | `Manager`, `Processor`, `Controller`, `WorkflowManager` | 何でも追加可能に見える | 狭い概念ごとにクラス分割 |
-| **コンテキスト混在** | 同一クラス名が文脈で意味が変わる（`Account`, `Car`） | 密結合・変更影響拡大 | コンテキスト別パッケージ/クラス |
+| **コンテキスト混在** | 同一クラス名が文脈で意味が変わる（e.g. `Car`といっても自動車を貨物として扱い配送元、配送経路を考慮する場合と、商品として扱い価格、販売オプションを考慮する場面は大きく文脈が異なる） | 密結合・変更影響拡大 | コンテキスト別パッケージ/クラス |
 | **連番命名** | `Class001`, `method002`, `changeIntValue01` | リネーム困難・TPS化 | 目的ベース名への組織的移行 |
 | **動詞+目的語** | `addItemToParty`, `exportParamsToCsv` が関係ないクラスに存在 | 責務外メソッド増殖 | 目的語をクラス化し動詞1語化 |
 | **boolean 居場所違い** | `Common.isMemberInConfusion(member)` | 関心事と定義場所の不一致 | 「クラス名 is 状態」テストで移動 |
 | **不自然な省略** | `trFee`, `LRF`, `dod` | コメント依存・意図不明 | フルスペル（`totalRentalFee` 等） |
-| **形容詞混在** | 同一変数に「新品/中古」「要注意」等の差が形容詞のみ | 概念の境界が曖昧 | 形容詞差分を別クラス化 |
+| **形容詞混在** | 同一クラスを形容詞をつけて呼び分けている（e.g. 同じTicketクラスだが60歳以上ならシニア料金） | 概念の境界が曖昧 | 形容詞差分を別クラス化 |
 
 ## クイック検証ヒューリスティック
 
@@ -88,23 +88,20 @@ description: 目的駆動名前設計にもとづき不適切な命名を検出�
 - **処理:** 何をするか（取得・検証・構築・永続化等）
 - **戻り値:** 何が返るか（`Order`, `Config`, `void` 等）
 
-取得系は `fetch~` を優先する。
 取得元（`FromFile`, `FromDb`, `ById` 等）は、**引数だけでは判別できないとき**名前に含める。
 引数名・型で取得元や対象が一意に決まるなら、名前に含めない。
 
 - ❌ `loadConfig()`, `parseConfig()`, `read(id)` — 処理・戻り値のどちらかが不明
 - ❌ `extractDriveDocumentUrlsFromCsv(csv_path)` — `csv_path` で CSV 由来は自明
-- ✅ `fetchOrderById(id)`, `fetchUserFromRepository(id)` — `id` だけでは取得元が不明
+- ✅ `fetchOrderById(id)`, `getUserFromRepository(id)` — `id` だけでは取得元が不明
 - ✅ `extractDriveDocumentUrls(csv_path)`, `fetchConfig(config_file_path)` — 引数で取得元が自明
 
 ### 曖昧動詞アラート
 
-`require` / `prepare` / `read` / `load` / `parse` は汎用動詞であり、処理内容と戻り値が名前から読み取れない。
-`load~` は**禁止**。
-`parse~` も取得元・戻り値が名前に現れなければ**禁止**。
+`require` / `prepare` / `read` / `load` / `parse` / `assert` は汎用動詞であり、処理内容と戻り値が名前から読み取れない。
 
-- ❌ `require(user)`, `prepare(order)`, `read(id)`, `loadConfig()`, `parseConfig()`, `loadUser(id)` — 何を保証・構築・取得するか不明
-- ✅ `assertUserIsAuthenticated(user)`, `buildShipment(order)`, `fetchOrderById(id)`, `fetchConfig(config_file_path)`
+- ❌ `require(user)`, `prepare(order)`, `read(id)`, `loadConfig()`, `parseConfig()`, `loadUser(id)`, `assert(user)`, `getData()`, `hasPermission()`, `isValid(order)` — 何を保証・構築・取得・検証するか不明
+- ✅ `buildShipment(order)`, `fetchOrderById(id)`, `getConfig(config_file_path)`, `canCheckout(order)`, `hasMinimumOrderAmount(cart)`
 
 ### 引数自明テスト
 
@@ -152,19 +149,12 @@ description: 目的駆動名前設計にもとづき不適切な命名を検出�
 
 「何を足したか」ではなく「その合成が何のためか」を名前に反映する。
 
-### 形容詞アラート
-
-説明に形容詞が必要なら、別概念の可能性。
-
-- 「要注意会員の User」→ `FlaggedUser` / `WatchlistMember`
-- 「補正後の最大 HP」→ `CorrectedMaxHitPoint`
-
 ## 指摘の重大度
 
 | レベル | 基準 | 例 |
 |--------|------|-----|
 | 🔴 **Critical** | 誤解・バグ・設計崩壊を直接招く | 驚き違反、`tmp` だらけ、Manager への無制限追加 |
-| 🟡 **Warning** | 保守性・拡張性を著しく下げる | 曖昧動詞（`load~`/`parse~` 含む）、引数重複（`FromCsv` 等）、`for~` 目的語、技術駆動命名、And 複数責務、With 拡張命名、動詞+目的語の責務逸脱 |
+| 🟡 **Warning** | 保守性・拡張性を著しく下げる | 曖昧動詞（`load~`/`parse~`/`assert~` 含む）、引数重複（`FromCsv` 等）、`for~` 目的語、技術駆動命名、And 複数責務、With 拡張命名、動詞+目的語の責務逸脱 |
 | 🟢 **Suggestion** | より良い名前があり改善余地 | やや広い名前、省略の余地 |
 
 ## 出力フォーマット
@@ -271,22 +261,15 @@ class OrderData { ... }
 void prepare(CheckoutSession session) { ... }
 Order read(String id) { ... }
 void require(Member member) { ... }
+void assert(Member member) { ... }
+Object getData() { ... }
+boolean isValid(Order order) { ... }
 ```
 
-- 🟡 初期化・取得・検証のどれか不明、処理・戻り値が想像できない
-- 提案: `initializePayment(session)`, `fetchOrderById(id)`, `assertMemberCanPurchase(member)`
+- 🟡 初期化・取得・検証のどれか不明、処理・戻り値・検証内容が想像できない
+- 提案: `initializePayment(session)`, `fetchOrderById(id)`, `member.canPurchase(item)`, `isAuthenticated(member)`, `fetchCheckoutSummary()`, `canCheckout(order)`
 
-### 例9: load 曖昧動詞（禁止）
-
-```java
-Config loadConfig() { ... }
-User loadUser(String id) { ... }
-```
-
-- 🟡 ファイル読込・DB取得・キャッシュ復元のどれか不明
-- 提案: `fetchConfigFromFile(path)`, `fetchUserById(id)`
-
-### 例10: for目的語（禁止）
+### 例9: for目的語
 
 ```java
 Payload buildPayloadForWebhook(Event event) { ... }
@@ -296,7 +279,7 @@ void validateForCheckout(Cart cart) { ... }
 - 🟡 目的語が関数名に残り、責務分離が不十分
 - 提案: `WebhookPayloadBuilder#build(event)`, `CheckoutValidator#validate(cart)`
 
-### 例11: 引数重複（FromX）
+### 例10: 引数重複（FromX）
 
 ```python
 def extract_drive_document_urls_from_csv(csv_path: Path) -> list[str]: ...
@@ -315,5 +298,4 @@ def extract_drive_document_urls_from_csv(csv_path: Path) -> list[str]: ...
 | フルエント API | `withRetryPolicy()` 等、ビルダー/設定チェーンの `with~` |
 | I/O プロトコル | `InputStream#read`, `Reader#read` 等、入出力がクラスの本質である場合 |
 | 言語/フレームワーク慣習 | Node.js `require()`, Rust `std::io::Read` 等、エコシステム標準 |
-| 組込み/low-level | ハードウェア直アクセス層（可能な限り目的は残す） |
 
