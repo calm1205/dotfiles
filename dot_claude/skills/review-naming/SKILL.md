@@ -44,7 +44,7 @@ description: 目的駆動名前設計にもとづき不適切な命名を検出�
 | **データクラス名** | `~Info`, `~Data`, `~Model`（DTO 意図以外） | ロジック実装を抑制し低凝集化 | ドメイン名（`Product` 等）へ |
 | **巨大化誘発** | `Manager`, `Processor`, `Controller`, `WorkflowManager` | 何でも追加可能に見える | 狭い概念ごとにクラス分割 |
 | **コンテキスト混在** | 同一クラス名が文脈で意味が変わる（e.g. `Car`といっても自動車を貨物として扱い配送元、配送経路を考慮する場合と、商品として扱い価格、販売オプションを考慮する場面は大きく文脈が異なる） | 密結合・変更影響拡大 | コンテキスト別パッケージ/クラス |
-| **連番命名** | `Class001`, `method002`, `changeIntValue01` | リネーム困難・TPS化 | 目的ベース名への組織的移行 |
+| **連番命名** | `Class001`, `method002`, `changeIntValue01` | リネーム困難・コピペ増殖・テスト困難化 | 目的ベース名への組織的移行 |
 | **動詞+目的語** | `addItemToParty`, `exportParamsToCsv` が関係ないクラスに存在 | 責務外メソッド増殖 | 目的語をクラス化し動詞1語化 |
 | **boolean 居場所違い** | `Common.isMemberInConfusion(member)` | 関心事と定義場所の不一致 | 「クラス名 is 状態」テストで移動 |
 | **不自然な省略** | `trFee`, `LRF`, `dod` | コメント依存・意図不明 | フルスペル（`totalRentalFee` 等） |
