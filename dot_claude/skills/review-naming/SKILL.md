@@ -32,6 +32,7 @@ description: 目的駆動名前設計にもとづき不適切な命名を検出�
 
 | スメル | 検出シグナル | 問題 | 改善の方向 |
 |--------|-------------|------|-----------|
+| **引数重複** | `extractFromCsv(csv_path)`, `fetchFromDb(user_id)` 等、引数名・型で取得元・対象が自明 | 名前と引数が同じ事実を二重に述べる | 引数で自明な修飾子（`FromCsv`, `FromDb`, `InDir` 等）を削除 |
 | **曖昧動詞** | `require~`, `prepare~`, `read~`, `load~`, `parse~`（単体または取得元・戻り値不足） | 処理内容と戻り値が想像できない | 具体動詞+取得元/キー（`fetchOrderById`, `fetchConfigFromFile`, `assertAuthenticated` 等） |
 | **for目的語** | `buildForUser`, `validateForOrder`, `calculateForCheckout` | 目的語を関数名に置くのは責務分離の失敗 | 目的語をクラス化し動詞1語化（`UserBuilder#build`, `OrderValidator#validate` 等） |
 | **複数責務（And）** | `validateAndSave`, `fetchAndProcess`, `createAndNotify` | 1関数が複数操作を束ね、分割・テスト困難 | 操作ごとに関数分割、オーケストレーション層へ |
@@ -88,10 +89,13 @@ description: 目的駆動名前設計にもとづき不適切な命名を検出�
 - **戻り値:** 何が返るか（`Order`, `Config`, `void` 等）
 
 取得系は `fetch~` を優先する。
-取得元（`FromFile`, `FromDb`, `ById` 等）と戻り値の型が名前に現れること。
+取得元（`FromFile`, `FromDb`, `ById` 等）は、**引数だけでは判別できないとき**名前に含める。
+引数名・型で取得元や対象が一意に決まるなら、名前に含めない。
 
 - ❌ `loadConfig()`, `parseConfig()`, `read(id)` — 処理・戻り値のどちらかが不明
-- ✅ `fetchConfigFromFile(path)`, `fetchOrderById(id)`, `fetchUserFromRepository(id)`
+- ❌ `extractDriveDocumentUrlsFromCsv(csv_path)` — `csv_path` で CSV 由来は自明
+- ✅ `fetchOrderById(id)`, `fetchUserFromRepository(id)` — `id` だけでは取得元が不明
+- ✅ `extractDriveDocumentUrls(csv_path)`, `fetchConfig(config_file_path)` — 引数で取得元が自明
 
 ### 曖昧動詞アラート
 
@@ -100,7 +104,19 @@ description: 目的駆動名前設計にもとづき不適切な命名を検出�
 `parse~` も取得元・戻り値が名前に現れなければ**禁止**。
 
 - ❌ `require(user)`, `prepare(order)`, `read(id)`, `loadConfig()`, `parseConfig()`, `loadUser(id)` — 何を保証・構築・取得するか不明
-- ✅ `assertUserIsAuthenticated(user)`, `buildShipment(order)`, `fetchOrderById(id)`, `fetchConfigFromFile(path)`
+- ✅ `assertUserIsAuthenticated(user)`, `buildShipment(order)`, `fetchOrderById(id)`, `fetchConfig(config_file_path)`
+
+### 引数自明テスト
+
+関数名から `FromX` / `InY` / `ByZ` 等の修飾子を取り除き、**引数シグネチャだけ**で同じ事実が読めるか。
+
+- ❌ `extractDriveDocumentUrlsFromCsv(csv_path: Path)` → `csv_path` で CSV は自明
+- ✅ `extractDriveDocumentUrls(csv_path: Path)`
+- ❌ `collectDriveDocumentUrlsInMappingsDir(mappings_dir: Path)` → `mappings_dir` でディレクトリ走査は自明
+- ✅ `collectDriveDocumentUrls(mappings_dir: Path)`
+- ✅ `fetchOrderById(id: OrderId)` — `id` だけでは DB / キャッシュ / API の区別がつかないため `ById` は残す
+
+**原則:** 引数で自明な事実は命名に含めない。名前は引数が伝えない情報（戻り値の意味、処理の目的、取得元の曖昧さの解消）に使う。
 
 ### for目的語アラート
 
@@ -148,7 +164,7 @@ description: 目的駆動名前設計にもとづき不適切な命名を検出�
 | レベル | 基準 | 例 |
 |--------|------|-----|
 | 🔴 **Critical** | 誤解・バグ・設計崩壊を直接招く | 驚き違反、`tmp` だらけ、Manager への無制限追加 |
-| 🟡 **Warning** | 保守性・拡張性を著しく下げる | 曖昧動詞（`load~`/`parse~` 含む）、`for~` 目的語、技術駆動命名、And 複数責務、With 拡張命名、動詞+目的語の責務逸脱 |
+| 🟡 **Warning** | 保守性・拡張性を著しく下げる | 曖昧動詞（`load~`/`parse~` 含む）、引数重複（`FromCsv` 等）、`for~` 目的語、技術駆動命名、And 複数責務、With 拡張命名、動詞+目的語の責務逸脱 |
 | 🟢 **Suggestion** | より良い名前があり改善余地 | やや広い名前、省略の余地 |
 
 ## 出力フォーマット
@@ -279,6 +295,15 @@ void validateForCheckout(Cart cart) { ... }
 
 - 🟡 目的語が関数名に残り、責務分離が不十分
 - 提案: `WebhookPayloadBuilder#build(event)`, `CheckoutValidator#validate(cart)`
+
+### 例11: 引数重複（FromX）
+
+```python
+def extract_drive_document_urls_from_csv(csv_path: Path) -> list[str]: ...
+```
+
+- 🟡 `csv_path` 引数で CSV 由来は自明。`from_csv` は冗長
+- 提案: `extract_drive_document_urls(csv_path: Path)`
 
 ## 例外（指摘しない／慎重に）
 
