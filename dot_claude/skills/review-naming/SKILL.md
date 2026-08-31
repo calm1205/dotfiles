@@ -104,6 +104,11 @@ description: 目的駆動名前設計にもとづき不適切な命名を検出�
 - ❌ `require(user)`, `prepare(order)`, `read(id)`, `loadConfig()`, `parseConfig()`, `loadUser(id)`, `assert(user)`, `getData()`, `hasPermission()`, `isValid(order)` — 何を保証・構築・取得・検証するか不明
 - ✅ `buildShipment(order)`, `fetchOrderById(id)`, `getConfig(config_file_path)`, `canCheckout(order)`, `hasMinimumOrderAmount(cart)`
 
+名前だけで次を答えられるか確認する。
+
+- 副作用はあるか（検証失敗で例外、DB書込、外部API呼出等）
+- 副作用がなければ、なぜその汎用動詞なのか
+
 ### 引数自明テスト
 
 関数名から `FromX` / `InY` / `ByZ` 等の修飾子を取り除き、**引数シグネチャだけ**で同じ事実が読めるか。
@@ -130,8 +135,8 @@ description: 目的駆動名前設計にもとづき不適切な命名を検出�
 
 名前だけで次を答えられるか確認する。
 
-- 副作用はあるか（検証失敗で例外、DB書込、外部API呼出等）
-- 副作用がなければ、なぜその汎用動詞なのか
+- 目的語（`User`, `Order`, `Checkout` 等）をクラス名に抽出できているか
+- メソッド名は動詞1語になっているか
 
 ### And アラート
 
